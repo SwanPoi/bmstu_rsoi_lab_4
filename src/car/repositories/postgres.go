@@ -11,7 +11,7 @@ import (
 
 type DatabaseConfig struct {
 	Host 		string 	`mapstructure:"DB_HOST"`
-	Port 		int64 	`mapstructure:"DB_PORT"`
+	Port 		string 	`mapstructure:"DB_PORT"`
 	User 		string 	`mapstructure:"DB_USER"`
 	Password 	string 	`mapstructure:"DB_PASSWORD"`
 	Database 	string 	`mapstructure:"DB_NAME"`
@@ -21,7 +21,7 @@ func GetConnectionString(cfg *DatabaseConfig) (connStr string) {
 	 dsn := url.URL{
         Scheme:   "postgres",
         User:     url.UserPassword(cfg.User, cfg.Password),
-        Host:     fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
+        Host:     fmt.Sprintf("%s:%s", cfg.Host, cfg.Port),
         Path:     cfg.Database,
     }
 

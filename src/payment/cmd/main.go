@@ -4,19 +4,22 @@ import (
 	"log"
 
 	handler "github.com/SwanPoi/bmstu_rsoi_lab2/src/payment/handler"
-	"github.com/SwanPoi/bmstu_rsoi_lab2/src/payment/models"
+	models "github.com/SwanPoi/bmstu_rsoi_lab2/src/payment/models"
+	config "github.com/SwanPoi/bmstu_rsoi_lab2/src/payment/config"
 	repo "github.com/SwanPoi/bmstu_rsoi_lab2/src/payment/repositories"
 	server "github.com/SwanPoi/bmstu_rsoi_lab2/src/payment/server"
 	services "github.com/SwanPoi/bmstu_rsoi_lab2/src/payment/services"
 )
 
 func main() {
+	cfg := config.Load()
+
 	connString := repo.GetConnectionString(&repo.DatabaseConfig{
-		Host: "postgres",
-		Port: 5432,
-		User: "postgres",
-		Password: "postgres",
-		Database: "payments",
+		Host: cfg.DBHost,
+		Port: cfg.DBPort,
+		User: cfg.DBUser,
+		Password: cfg.DBPassword,
+		Database: cfg.DBName,
 	})
 
 	db, err := repo.InitDb(connString)
@@ -35,7 +38,7 @@ func main() {
 
 	srv := new(server.CommonServer)
 
-	if err := srv.Run("8050", handler.SetupRoutes()); err != nil {
+	if err := srv.Run(cfg.Addr(), handler.SetupRoutes()); err != nil {
 		log.Fatal("Fail during payment server start", err)
 		return
 	}

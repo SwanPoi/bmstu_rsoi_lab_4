@@ -7,22 +7,32 @@ import (
 	"github.com/gin-gonic/gin"
 
 	cb "github.com/SwanPoi/bmstu_rsoi_lab2/src/gateway/circuitBreaker"
-	"github.com/SwanPoi/bmstu_rsoi_lab2/src/gateway/models"
 	services "github.com/SwanPoi/bmstu_rsoi_lab2/src/gateway/services"
+	config "github.com/SwanPoi/bmstu_rsoi_lab2/src/gateway/config"
 )
 
+type GatewayRoutesConfig struct {
+	CarUrl			string
+	RentalUrl		string
+	PaymentUrl		string
+}
+
 type GatewayHandler struct {
-	services *services.Services
-	config   *models.HandlerConfig
+	services 	*services.Services
+	config   	*GatewayRoutesConfig
 	carCB       *cb.CircuitBreaker
 	rentalCB    *cb.CircuitBreaker
 	paymentCB   *cb.CircuitBreaker
 }
 
-func NewHandler(services *services.Services, config *models.HandlerConfig) *GatewayHandler {
+func NewHandler(services *services.Services, config *config.HandlerConfig) *GatewayHandler {
 	return &GatewayHandler{
 		services: services,
-		config: config,
+		config: &GatewayRoutesConfig{
+			CarUrl: config.CarUrl,
+			PaymentUrl: config.PaymentUrl,
+			RentalUrl: config.RentalUrl,
+		},
 		carCB:     cb.NewCircuitBreaker(5, 0.4, 30*time.Second),
 		rentalCB:  cb.NewCircuitBreaker(5, 0.4, 30*time.Second),
 		paymentCB: cb.NewCircuitBreaker(5, 0.4, 30*time.Second),

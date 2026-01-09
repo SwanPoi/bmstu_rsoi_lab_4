@@ -10,9 +10,9 @@ type CommonServer struct {
 	httpServer *http.Server
 }
 
-func (s *CommonServer) Run(port string, handler http.Handler) error {
+func (s *CommonServer) Run(addr string, handler http.Handler) error {
 	s.httpServer = &http.Server{
-		Addr:           ":" + port,
+		Addr:           addr,
 		Handler:        handler,
 		MaxHeaderBytes: 1 << 20,
 		ReadTimeout:    10 * time.Second,

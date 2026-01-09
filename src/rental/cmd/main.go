@@ -4,19 +4,22 @@ import (
 	"log"
 
 	handler "github.com/SwanPoi/bmstu_rsoi_lab2/src/rental/handler"
-	"github.com/SwanPoi/bmstu_rsoi_lab2/src/rental/models"
+	models "github.com/SwanPoi/bmstu_rsoi_lab2/src/rental/models"
+	config "github.com/SwanPoi/bmstu_rsoi_lab2/src/rental/config"
 	repo "github.com/SwanPoi/bmstu_rsoi_lab2/src/rental/repositories"
 	server "github.com/SwanPoi/bmstu_rsoi_lab2/src/rental/server"
 	services "github.com/SwanPoi/bmstu_rsoi_lab2/src/rental/services"
 )
 
 func main() {
+	cfg := config.Load()
+
 	connString := repo.GetConnectionString(&repo.DatabaseConfig{
-		Host: "postgres",
-		Port: 5432,
-		User: "postgres",
-		Password: "postgres",
-		Database: "rentals",
+		Host: cfg.DBHost,
+		Port: cfg.DBPort,
+		User: cfg.DBUser,
+		Password: cfg.DBPassword,
+		Database: cfg.DBName,
 	})
 
 	db, err := repo.InitDb(connString)
@@ -35,7 +38,7 @@ func main() {
 
 	srv := new(server.CommonServer)
 
-	if err := srv.Run("8060", handler.SetupRoutes()); err != nil {
+	if err := srv.Run(cfg.Addr(), handler.SetupRoutes()); err != nil {
 		log.Fatal("Fail during rental server start", err)
 		return
 	}

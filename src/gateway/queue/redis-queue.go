@@ -22,10 +22,10 @@ type RetryRequest struct {
 var RedisCtx = context.Background()
 var RedisClient *redis.Client
 
-func InitRedis() {
+func InitRedis(addr, password string) {
 	RedisClient = redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
-		Password: "",            
+		Addr:     addr,
+		Password: password,            
 		DB:       0,      
 	})
 
