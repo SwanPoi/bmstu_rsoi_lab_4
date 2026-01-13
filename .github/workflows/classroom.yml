@@ -153,7 +153,7 @@ jobs:
             fi
             
             echo "Attempt $i: Ingress address not yet assigned, waiting 20s..."
-            sleep 20
+            sleep 15
             
             if [ $i -eq 30 ]; then
               echo "Timeout, stop waiting of Ingress address"
