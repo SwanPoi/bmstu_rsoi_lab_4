@@ -166,8 +166,8 @@ jobs:
         run: |
           echo "=== Setup port forwarding to ingress on port 8080 ==="
           kubectl port-forward service/ingress-nginx-controller -n ingress-nginx 8080:80 &
-          echo $! > /tmp/pf-ingress.pid &
-          sleep 10 &
+          echo $! > /tmp/pf-ingress.pid
+          sleep 10
           curl -f http://localhost:8080/manage/health
 
       - name: Run Test Script
