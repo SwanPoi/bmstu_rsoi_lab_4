@@ -138,7 +138,7 @@ jobs:
       
       - name: Deploy Ingress
         run: |
-          kubectl apply -f ./k8s/ingress.yaml
+          kubectl apply -f ./k8s/ingress.yaml -n test
 
           echo "=== Waiting for Ingress ==="
           for i in {1..30}; do 
