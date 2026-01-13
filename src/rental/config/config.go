@@ -21,7 +21,7 @@ func Load() Config {
 		Port: 			getenv("PORT", "8060"),
 		DBHost: 		getenv("DB_HOST", "postgres"),
 		DBPort: 		getenv("DB_PORT", "5432"),
-		DBPassword:		getenv("REDIS_PASSWORD", "postgres"),
+		DBPassword:		getenv("DB_PASSWORD", "postgres"),
 		DBUser: 		getenv("DB_USER", "postgres"),
 		DBName: 		getenv("DB_NAME", "rentals"),
 	}
